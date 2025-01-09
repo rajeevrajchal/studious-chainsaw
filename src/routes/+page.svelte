@@ -4,6 +4,7 @@
 
 	let pixi: PixiContext = getPixiContext();
 	let level = $state(1);
+	let speed = $state(1);
 	let pageRef: HTMLDivElement | undefined = $state();
 	let keySet: { [key: number]: boolean } = $state({});
 	let playerBunny: Sprite | undefined = $state();
@@ -31,7 +32,7 @@
 		app: any,
 		count: any,
 		level: number,
-		baseSpacing = 200
+		baseSpacing = 100
 	) => {
 		// Reduce spacing as level increases, but never below minimum safe distance
 		const minSpacing = Math.max(60, baseSpacing - level * 20);
@@ -190,7 +191,7 @@
 		}
 
 		// Movement speed increases with level
-		const moveSpeed = Math.min(2 + level, 8); // Cap speed at 8 to keep it playable
+		const moveSpeed = level + speed; // Cap speed at 8 to keep it playable
 
 		if (keySet[38]) {
 			// Up arrow
