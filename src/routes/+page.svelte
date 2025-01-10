@@ -66,7 +66,8 @@
 					const distance = Math.random() * dangerZone.radius;
 					newPosition = {
 						x: dangerZone.x + Math.cos(angle) * distance,
-						y: dangerZone.y + Math.sin(angle) * distance
+						y: dangerZone.y + Math.sin(angle) * distance,
+						rotation: Math.random() * Math.PI * 2
 					};
 				} else {
 					newPosition = getRandomPosition(app, padding);
@@ -188,9 +189,17 @@
 
 		const newPoint = { x: playerBunny.x, y: playerBunny.y };
 
-		if (playerBunny.y <= 0) {
+		if (playerBunny.y <= 20) {
 			alert('You won! Level ' + level + ' completed!');
 			level = level + 1;
+			hortizontalSpeed = 2;
+			resetGame();
+			return;
+		}
+
+		if (playerBunny.x <= 0 || playerBunny.x >= pixi.app.screen.width) {
+			alert('Game Over! You collided with the wall on level ' + level);
+			level = 1;
 			hortizontalSpeed = 2;
 			resetGame();
 			return;
@@ -248,13 +257,44 @@
 </script>
 
 <div bind:this={pageRef} class="canvas"></div>
+<div class="legend">
+	<div class="tile">
+		<p>Level</p>
+		<p>{level}</p>
+	</div>
+	<div class="tile">
+		<p>Vertical Speed</p>
+		<p>{speed}</p>
+	</div>
+	<div class="tile">
+		<p>hortizontal Speed</p>
+		<p>{hortizontalSpeed}</p>
+	</div>
+</div>
 
-<style>
+<style style="scss">
 	.canvas {
 		position: relative;
 		width: 100%;
 		height: 100%;
 		overflow: hidden;
 		outline: none; /* Remove focus outline when focused */
+		border: 10px solid #000;
+	}
+	.legend {
+		display: flex;
+		flex-direction: column;
+		position: absolute;
+		top: 20px;
+		right: 20px;
+		background-color: rgba(0, 0, 0, 0.5);
+		color: white;
+		padding: 10px;
+		border-radius: 5px;
+		width: 200px;
+	}
+	.tile {
+		display: flex;
+		justify-content: space-between;
 	}
 </style>
