@@ -5,13 +5,14 @@
 	let pixi: PixiContext = getPixiContext();
 	let level = $state(1);
 	let speed = $state(1);
+	let hortizontalSpeed = $state(2);
 	let pageRef: HTMLDivElement | undefined = $state();
 	let keySet: { [key: number]: boolean } = $state({});
 	let playerBunny: Sprite | undefined = $state();
 	let obstacleBunnies: Sprite[] = $state([]);
 	let isGameActive: boolean = $state(true);
 
-	const NUM_BUNNIES = 5; // Change this number to add more bunnies
+	const NUM_BUNNIES = 8; // Change this number to add more bunnies
 
 	const handleKeyDown = (e: KeyboardEvent) => {
 		keySet[e.keyCode] = true;
@@ -43,7 +44,7 @@
 		// Calculate "danger zone" that gets larger with level
 		const dangerZone = {
 			x: app.screen.width / 2,
-			y: app.screen.height / 2,
+			y: (app.screen.height - 100) / 2,
 			radius: Math.min(app.screen.width / 2, 100 + level * 30)
 		};
 
@@ -132,12 +133,16 @@
 	const createBunnies = async () => {
 		if (!pixi.app) return;
 		const texture = await Assets.load('https://pixijs.com/assets/bunny.png');
+		const mainPlayer = await Assets.load('/run-man.png');
 
 		// Create player bunny
-		playerBunny = Sprite.from(texture);
+		playerBunny = Sprite.from(mainPlayer);
 		playerBunny.anchor.set(0.5);
 		playerBunny.x = pixi.app.screen.width / 2;
 		playerBunny.y = pixi.app.screen.height - 50;
+		playerBunny.scale.set(0.1);
+		playerBunny.width = 50;
+		playerBunny.height = 50;
 		pixi.app.stage.addChild(playerBunny);
 
 		// Generate initial positions for obstacles
@@ -186,6 +191,7 @@
 		if (playerBunny.y <= 0) {
 			alert('You won! Level ' + level + ' completed!');
 			level = level + 1;
+			hortizontalSpeed = 2;
 			resetGame();
 			return;
 		}
@@ -204,11 +210,11 @@
 		}
 		if (keySet[37]) {
 			// Left arrow
-			newPoint.x -= moveSpeed;
+			newPoint.x -= hortizontalSpeed;
 		}
 		if (keySet[39]) {
 			// Right arrow
-			newPoint.x += moveSpeed;
+			newPoint.x += hortizontalSpeed;
 		}
 
 		// Check collision with any obstacle bunny
@@ -216,6 +222,7 @@
 			isGameActive = false;
 			alert('Game Over! You collided with an obstacle on level ' + level);
 			level = 1;
+			hortizontalSpeed = 2;
 			resetGame();
 			return;
 		}

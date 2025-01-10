@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@pixi/gif':
+        specifier: ^3.0.1
+        version: 3.0.1(pixi.js@8.6.6)
       pixi.js:
         specifier: ^8.6.6
         version: 8.6.6
@@ -382,6 +385,11 @@ packages:
 
   '@pixi/colord@2.9.6':
     resolution: {integrity: sha512-nezytU2pw587fQstUu1AsJZDVEynjskwOL+kibwcdxsMBFqPsFFNA7xl0ii/gXuDi6M0xj3mfRJj8pBSc2jCfA==}
+
+  '@pixi/gif@3.0.1':
+    resolution: {integrity: sha512-oGl0nkbFAe1vaRLyIvGbJc3fcIrS8vF1E00cwjiV+9f1pYe072D+yijJxHsgYnXs6jdzERh+D0MqSrEag0jRzg==}
+    peerDependencies:
+      pixi.js: ^8.0.0
 
   '@polka/url@1.0.0-next.28':
     resolution: {integrity: sha512-8LduaNlMZGwdZ6qWrKlfa+2M4gahzFkprZiAt2TF8uS0qQgBizKXpXURqvTJ4WtmupWxaLqjRb2UCTe72mu+Aw==}
@@ -1474,6 +1482,10 @@ snapshots:
     optional: true
 
   '@pixi/colord@2.9.6': {}
+
+  '@pixi/gif@3.0.1(pixi.js@8.6.6)':
+    dependencies:
+      pixi.js: 8.6.6
 
   '@polka/url@1.0.0-next.28': {}
 
